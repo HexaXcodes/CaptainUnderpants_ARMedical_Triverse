@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import UploadReport from './pages/UploadReport';
 import WorkflowSelect from './pages/WorkflowSelect';
 import ARExperience from './pages/ARExperience';
+import LandingPage from './pages/LandingPage';
 
 const App = () => (
   <BrowserRouter>
@@ -32,8 +33,8 @@ const App = () => (
             <ProtectedRoute><UploadReport /></ProtectedRoute>
           } />
 
-          {/* Default redirect */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Public landing page */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </WorkflowProvider>
