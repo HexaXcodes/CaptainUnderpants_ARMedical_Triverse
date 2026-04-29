@@ -1,0 +1,116 @@
+{
+  "wound_care": {
+    "id": "wound_care",
+    "name": "Wound Care",
+    "description": "Cuts, abrasions, and bleeding wounds",
+    "severityLevels": {
+      "mild": {
+        "severity": "mild",
+        "canHandleAlone": true,
+        "callEmergency": false,
+        "summary": "Minor cut or scrape. Any individual can provide care.",
+        "steps": [
+          { "id": 1, "title": "Wash your hands", "instruction": "Wash hands with soap and water for 20 seconds before touching the wound.", "overlay": "circle", "duration": 20 },
+          { "id": 2, "title": "Stop the bleeding", "instruction": "Apply gentle pressure with a clean cloth or gauze for 5 minutes.", "overlay": "arrow", "duration": 300 },
+          { "id": 3, "title": "Clean the wound", "instruction": "Rinse the wound under cool running water. Avoid scrubbing.", "overlay": "circle", "duration": 30 },
+          { "id": 4, "title": "Apply antiseptic", "instruction": "Dab a thin layer of antiseptic ointment around the wound.", "overlay": "circle", "duration": 10 },
+          { "id": 5, "title": "Cover the wound", "instruction": "Place a sterile bandage over the wound. Change daily.", "overlay": "arrow", "duration": 15 }
+        ]
+      },
+      "moderate": {
+        "severity": "moderate",
+        "canHandleAlone": true,
+        "callEmergency": false,
+        "summary": "Deeper cut with moderate bleeding. First aid is sufficient but monitor closely.",
+        "steps": [
+          { "id": 1, "title": "Apply firm pressure", "instruction": "Press a clean cloth firmly over the wound for at least 10 minutes without lifting.", "overlay": "arrow", "duration": 600 },
+          { "id": 2, "title": "Elevate the wound", "instruction": "Raise the injured area above heart level to slow bleeding.", "overlay": "arrow", "duration": 60 },
+          { "id": 3, "title": "Do NOT remove embedded objects", "instruction": "If something is stuck in the wound, leave it. Stabilize it with bandages.", "overlay": "warning", "duration": 30 },
+          { "id": 4, "title": "Bandage tightly", "instruction": "Wrap firmly with sterile gauze. Check fingers/toes remain warm and pink.", "overlay": "circle", "duration": 60 },
+          { "id": 5, "title": "Seek medical attention", "instruction": "Visit a clinic within a few hours for stitches if needed.", "overlay": "warning", "duration": 0 }
+        ]
+      },
+      "severe": {
+        "severity": "severe",
+        "canHandleAlone": false,
+        "callEmergency": true,
+        "emergencyNumber": "112",
+        "summary": "Heavy bleeding or deep wound. CALL EMERGENCY SERVICES IMMEDIATELY.",
+        "steps": [
+          { "id": 1, "title": "CALL EMERGENCY NOW", "instruction": "Dial 112 (or local emergency) immediately. Do not delay.", "overlay": "emergency", "duration": 0 },
+          { "id": 2, "title": "Apply maximum pressure", "instruction": "Press hard on the wound with any clean cloth. Do not release pressure.", "overlay": "arrow", "duration": 0 },
+          { "id": 3, "title": "Keep patient still and warm", "instruction": "Lay the patient flat. Cover with a blanket. Keep them talking if conscious.", "overlay": "circle", "duration": 0 },
+          { "id": 4, "title": "Monitor breathing", "instruction": "Watch chest rise and fall. If breathing stops, prepare for CPR.", "overlay": "warning", "duration": 0 },
+          { "id": 5, "title": "Wait for help", "instruction": "Stay with the patient. Do not give food or water.", "overlay": "circle", "duration": 0 }
+        ]
+      }
+    }
+  },
+  "burn_care": {
+    "id": "burn_care",
+    "name": "Burn Care",
+    "description": "Thermal burns from heat, fire, or hot liquids",
+    "severityLevels": {
+      "mild": {
+        "severity": "mild",
+        "canHandleAlone": true,
+        "callEmergency": false,
+        "summary": "First-degree burn (red, no blisters). Any individual can treat at home.",
+        "steps": [
+          { "id": 1, "title": "Cool the burn", "instruction": "Run cool (not cold) water over the burn for 10-20 minutes.", "overlay": "circle", "duration": 900 },
+          { "id": 2, "title": "Remove jewelry", "instruction": "Gently remove rings, watches, or tight clothing near the burn before swelling starts.", "overlay": "arrow", "duration": 30 },
+          { "id": 3, "title": "Apply aloe vera or moisturizer", "instruction": "Use pure aloe vera gel or fragrance-free moisturizer. Avoid butter or oils.", "overlay": "circle", "duration": 20 },
+          { "id": 4, "title": "Cover loosely", "instruction": "Use a sterile non-stick bandage. Do not wrap tightly.", "overlay": "arrow", "duration": 30 }
+        ]
+      },
+      "moderate": {
+        "severity": "moderate",
+        "canHandleAlone": true,
+        "callEmergency": false,
+        "summary": "Second-degree burn with blisters. First aid first, then seek care.",
+        "steps": [
+          { "id": 1, "title": "Cool the burn", "instruction": "Run cool water for 20 minutes. Do not use ice.", "overlay": "circle", "duration": 1200 },
+          { "id": 2, "title": "Do NOT pop blisters", "instruction": "Leave blisters intact — they protect against infection.", "overlay": "warning", "duration": 0 },
+          { "id": 3, "title": "Cover with sterile gauze", "instruction": "Apply a loose, sterile non-stick dressing.", "overlay": "circle", "duration": 60 },
+          { "id": 4, "title": "Take pain reliever", "instruction": "Paracetamol or ibuprofen can help (check allergies first).", "overlay": "arrow", "duration": 0 },
+          { "id": 5, "title": "Visit a clinic", "instruction": "Burns larger than 3 inches need professional evaluation.", "overlay": "warning", "duration": 0 }
+        ]
+      },
+      "severe": {
+        "severity": "severe",
+        "canHandleAlone": false,
+        "callEmergency": true,
+        "emergencyNumber": "112",
+        "summary": "Third-degree burn or large area. CALL EMERGENCY IMMEDIATELY.",
+        "steps": [
+          { "id": 1, "title": "CALL EMERGENCY NOW", "instruction": "Dial 112 immediately. Severe burns are life-threatening.", "overlay": "emergency", "duration": 0 },
+          { "id": 2, "title": "Do NOT remove stuck clothing", "instruction": "If clothing is stuck to the burn, leave it. Removing it causes more damage.", "overlay": "warning", "duration": 0 },
+          { "id": 3, "title": "Cover with clean cloth", "instruction": "Use a clean dry sheet. Do not apply water or ointment.", "overlay": "circle", "duration": 0 },
+          { "id": 4, "title": "Watch for shock", "instruction": "Keep patient lying down with feet elevated. Cover to keep warm.", "overlay": "warning", "duration": 0 },
+          { "id": 5, "title": "Monitor breathing", "instruction": "If smoke inhalation is suspected, prepare for airway issues.", "overlay": "warning", "duration": 0 }
+        ]
+      }
+    }
+  },
+  "cpr": {
+    "id": "cpr",
+    "name": "CPR / Cardiac Arrest",
+    "description": "Patient unresponsive and not breathing",
+    "severityLevels": {
+      "severe": {
+        "severity": "severe",
+        "canHandleAlone": false,
+        "callEmergency": true,
+        "emergencyNumber": "112",
+        "summary": "ALWAYS SEVERE. Begin CPR immediately and call emergency.",
+        "steps": [
+          { "id": 1, "title": "Check responsiveness", "instruction": "Tap shoulders and shout. If no response, proceed.", "overlay": "circle", "duration": 5 },
+          { "id": 2, "title": "CALL EMERGENCY NOW", "instruction": "Dial 112 or ask someone nearby to call. Put phone on speaker.", "overlay": "emergency", "duration": 0 },
+          { "id": 3, "title": "Position the patient", "instruction": "Lay flat on back on a firm surface. Tilt head back, lift chin.", "overlay": "arrow", "duration": 10 },
+          { "id": 4, "title": "Start chest compressions", "instruction": "Place hands center of chest. Push hard and fast: 100-120 per minute, 2 inches deep.", "overlay": "arrow", "duration": 120 },
+          { "id": 5, "title": "Continue until help arrives", "instruction": "Do not stop. If trained, give 2 rescue breaths every 30 compressions.", "overlay": "warning", "duration": 0 }
+        ]
+      }
+    }
+  }
+}
