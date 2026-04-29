@@ -37,13 +37,16 @@ const injectScript = (src, attrs = {}) =>
     document.head.appendChild(s);
   });
 
-// Wait until window.AFRAME and the AR.js components are registered
+// Wait until A-Frame elements and AR.js global are registered. Different
+// AR.js builds expose the scene integration as a system, not a component.
 const waitForAframeRegistry = (timeout = 10000) =>
   new Promise((resolve, reject) => {
     const start = Date.now();
     const check = () => {
-      const aframeReady = !!(window.AFRAME && window.AFRAME.components);
-      const arjsReady   = !!(window.AFRAME?.components?.arjs);
+      const aframeReady =
+        !!(window.AFRAME && customElements.get('a-scene') && customElements.get('a-marker'));
+      const arjsReady =
+        !!(window.ARjs || window.AFRAME?.systems?.arjs || window.AFRAME?.components?.arjs);
       if (aframeReady && arjsReady) return resolve();
       if (Date.now() - start > timeout) {
         return reject(new Error('AR runtime did not initialize in time.'));

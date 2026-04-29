@@ -23,25 +23,21 @@ export const MARKERS = {
   cardiac: { type: 'pattern', value: '/markers/pattern-cardiac.patt' }
 };
 
+// Hiro is AR.js's built-in preset — zero file loading, guaranteed detection.
+// Using it for all workflows for demo reliability.
 export const WORKFLOW_TO_MARKER = {
-  wound_care: 'wound',
-  burn_care:  'burn',
-  cpr:        'cardiac'
+  wound_care: 'hiro',
+  burn_care:  'hiro',
+  cpr:        'hiro',
 };
 
-// AR.js scene parameters — tuned for mobile stability over fidelity.
+// AR.js scene parameters.
 export const SCENE_PARAMS = {
-  // Lower detection mode = faster, less battery drain
-  detectionMode: 'mono_and_matrix',
-  matrixCodeType: '3x3',
-  // Use webcam (not video file)
   sourceType: 'webcam',
-  // Disable verbose AR.js debug UI in production demo
+  sourceWidth: 640,
+  sourceHeight: 480,
   debugUIEnabled: false,
-  // Disable verbose console logs
   trackingMethod: 'best',
-  // patternRatio matches what the marker generator produced
-  patternRatio: 0.5
 };
 
 // Renderer params — keep GPU usage modest.

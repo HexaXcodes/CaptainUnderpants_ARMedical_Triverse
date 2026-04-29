@@ -24,19 +24,12 @@ export const HighlightCircle = ({
       radius-outer={radius}
       rotation="-90 0 0"
       material={`opacity: 0.85; transparent: true; shader: flat; color: ${color}`}
-    >
-      {pulse && (
-        <a-animation
-          attribute="scale"
-          from="1 1 1"
-          to="1.25 1.25 1.25"
-          dur="900"
-          direction="alternate"
-          repeat="indefinite"
-          easing="ease-in-out-sine"
-        />
-      )}
-    </a-ring>
+      animation__pulse={
+        pulse
+          ? 'property: scale; from: 1 1 1; to: 1.25 1.25 1.25; dur: 900; dir: alternate; loop: true; easing: easeInOutSine'
+          : undefined
+      }
+    />
   </a-entity>
 );
 
@@ -47,43 +40,45 @@ export const DirectionalArrow = ({
   rotation = '0 0 0',
   color = DEFAULT_COLORS.arrow,
   bob = true
-}) => (
-  <a-entity position={position} rotation={rotation}>
-    {/* Shaft */}
-    <a-cylinder
-      color={color}
-      height="0.6"
-      radius="0.06"
-      position="0 0 0"
-      material={`shader: flat; color: ${color}`}
-    />
-    {/* Tip */}
-    <a-cone
-      color={color}
-      height="0.3"
-      radius-bottom="0.16"
-      radius-top="0"
-      position="0 -0.45 0"
-      rotation="180 0 0"
-      material={`shader: flat; color: ${color}`}
-    />
-    {bob && (
-      <a-animation
-        attribute="position"
-        from={position}
-        to={`${position.split(' ')[0]} ${parseFloat(position.split(' ')[1]) + 0.15} ${position.split(' ')[2]}`}
-        dur="1100"
-        direction="alternate"
-        repeat="indefinite"
-        easing="ease-in-out-sine"
+}) => {
+  const [x, y, z] = position.split(' ');
+  const bobTarget = `${x} ${parseFloat(y) + 0.15} ${z}`;
+
+  return (
+    <a-entity
+      position={position}
+      rotation={rotation}
+      animation__bob={
+        bob
+          ? `property: position; from: ${position}; to: ${bobTarget}; dur: 1100; dir: alternate; loop: true; easing: easeInOutSine`
+          : undefined
+      }
+    >
+      {/* Shaft */}
+      <a-cylinder
+        color={color}
+        height="0.6"
+        radius="0.06"
+        position="0 0 0"
+        material={`shader: flat; color: ${color}`}
       />
-    )}
-  </a-entity>
-);
+      {/* Tip */}
+      <a-cone
+        color={color}
+        height="0.3"
+        radius-bottom="0.16"
+        radius-top="0"
+        position="0 -0.45 0"
+        rotation="180 0 0"
+        material={`shader: flat; color: ${color}`}
+      />
+    </a-entity>
+  );
+};
 
 // ---------- FloatingText ---------------------------------------------------
-//  Text panel that hovers above the marker. Includes a backing plane so the
-//  text reads against any environment.
+//  Text panel that hovers above the marker. Rotated -90° on X so it faces
+//  the webcam when the marker is shown flat toward the camera.
 export const FloatingText = ({
   position = '0 1.4 0',
   text = '',
@@ -91,29 +86,29 @@ export const FloatingText = ({
   bgColor = DEFAULT_COLORS.textBg,
   width = 3.2
 }) => (
-  <a-entity position={position} look-at="[camera]">
+  <a-entity position={position} rotation="-90 0 0" scale="1.5 1.5 1.5">
     {/* Backing plane */}
     <a-plane
       width={width}
-      height="0.55"
+      height="0.7"
       color={bgColor}
-      material={`opacity: 0.85; transparent: true; shader: flat; color: ${bgColor}`}
+      material={`opacity: 0.92; transparent: true; shader: flat; color: ${bgColor}`}
     />
     {/* Border accent */}
     <a-plane
-      width={width + 0.06}
-      height="0.61"
+      width={width + 0.08}
+      height="0.78"
       color={DEFAULT_COLORS.highlight}
       position="0 0 -0.001"
-      material={`opacity: 0.55; transparent: true; shader: flat; color: ${DEFAULT_COLORS.highlight}`}
+      material={`opacity: 0.6; transparent: true; shader: flat; color: ${DEFAULT_COLORS.highlight}`}
     />
     <a-text
       value={text}
       align="center"
       color={color}
-      width={width * 1.6}
+      width={width * 1.8}
       position="0 0 0.01"
-      wrap-count="40"
+      wrap-count="32"
       anchor="center"
       baseline="center"
     />
@@ -123,13 +118,13 @@ export const FloatingText = ({
 // ---------- StepBadge ------------------------------------------------------
 //  Small 3D tile showing the current step number above the marker.
 export const StepBadge = ({
-  position = '0 2.0 0',
+  position = '0 2.2 0',
   number = 1,
   color = DEFAULT_COLORS.highlight
 }) => (
-  <a-entity position={position} look-at="[camera]">
+  <a-entity position={position} rotation="-90 0 0" scale="1.5 1.5 1.5">
     <a-circle
-      radius="0.32"
+      radius="0.38"
       color={color}
       material={`shader: flat; color: ${color}`}
     />
@@ -137,7 +132,7 @@ export const StepBadge = ({
       value={`${number}`}
       align="center"
       color="#FFFFFF"
-      width="3"
+      width="3.5"
       position="0 0 0.01"
       anchor="center"
       baseline="center"

@@ -91,4 +91,32 @@
 
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .ar-live-scene {
+    pointer-events: none;
+  }
+
+  /* The WebGL canvas must sit ABOVE the AR.js video (z=1) so 3D objects
+     are visible. The canvas background is transparent so the video shows
+     through wherever there are no 3D objects. */
+  .ar-live-scene canvas {
+    background: transparent !important;
+    pointer-events: none;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 3 !important;
+  }
+
+  .arjs-video,
+  #arjs-video {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    z-index: 1 !important;
+  }
 }

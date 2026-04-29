@@ -28,24 +28,24 @@ const StepRenderer = ({ step, severity, totalSteps }) => {
   const highlightColor = step.color || (severity === 'severe' ? SEVERITY_COLORS.severe : accent);
 
   return (
-    <a-entity>
+    <a-entity scale="1.2 1.2 1.2">
       <HighlightCircle
         position={step.highlightPosition || '0 0.01 0'}
         color={highlightColor}
-        radius={0.6}
+        radius={0.7}
       />
       <DirectionalArrow
-        position={step.objectPosition || '0 0.6 0'}
-        color={accent}
-      />
-      <StepBadge
-        position="0 2.0 0"
-        number={step.id || '?'}
+        position={step.objectPosition || '0 0.8 0'}
         color={accent}
       />
       <FloatingText
-        position="0 1.4 0"
+        position="0 1.6 0"
         text={step.title || ''}
+      />
+      <StepBadge
+        position="0 2.4 0"
+        number={step.id || '?'}
+        color={accent}
       />
     </a-entity>
   );

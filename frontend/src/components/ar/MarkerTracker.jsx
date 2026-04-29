@@ -44,16 +44,16 @@ const MarkerTracker = forwardRef(function MarkerTracker(
       ? { preset: marker.value }
       : { type: 'pattern', url: marker.value };
 
+  // patternRatio only applies to custom pattern markers; omit for presets
+  const extraAttrs = marker.type === 'pattern' ? { patternRatio: '0.5' } : {};
+
   return (
     <a-marker
       ref={markerRef}
       {...markerAttrs}
-      smooth="true"
-      smoothCount="5"
-      smoothTolerance="0.01"
-      smoothThreshold="2"
-      raycaster="objects: .clickable"
+      {...extraAttrs}
       emitevents="true"
+      raycaster="objects: .clickable"
       cursor="fuse: false; rayOrigin: mouse"
     >
       {children}

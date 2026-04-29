@@ -17,11 +17,16 @@ const buildHeaders = (extra = {}, withAuth = true) => {
 
 // Generic fetch wrapper. Throws on non-2xx so callers can use try/catch.
 export const apiFetch = async (path, { method = 'GET', body, withAuth = true, headers } = {}) => {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method,
-    headers: buildHeaders(headers, withAuth),
-    body: body ? JSON.stringify(body) : undefined
-  });
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      method,
+      headers: buildHeaders(headers, withAuth),
+      body: body ? JSON.stringify(body) : undefined
+    });
+  } catch (err) {
+    throw new Error(`Backend unreachable at ${API_BASE}. Start the backend server and refresh.`);
+  }
 
   let data = null;
   const text = await res.text();

@@ -19,7 +19,7 @@
 // ============================================================================
 
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { Camera, AlertTriangle, Loader2, ScanLine } from 'lucide-react';
+import { Camera, AlertTriangle, Loader2, ScanLine, X } from 'lucide-react';
 import { useArScripts } from './useArScripts';
 import MarkerTracker from './MarkerTracker';
 import StepRenderer from './StepRenderer';
@@ -44,9 +44,12 @@ const ARScene = ({
   workflow,
   severity,
   currentStep = 0,
+  steps = [],
   onMarkerFound,
   onMarkerLost,
-  onStepComplete
+  onStepComplete,
+  onCameraStarted,
+  onExit
 }) => {
   const { ready: scriptsReady, error: scriptError } = useArScripts();
   const [armed, setArmed] = useState(false);   // user has tapped "Start Camera"
@@ -60,34 +63,20 @@ const ARScene = ({
 
   // Resolve current step from the workflow's step list (if provided)
   const step = useMemo(() => {
-    const steps = workflow?.steps || [];
     return steps[currentStep] || null;
-  }, [workflow, currentStep]);
+  }, [steps, currentStep]);
 
-  // Probe the camera to surface permission errors clearly to the user.
-  // We don't keep this stream — AR.js opens its own. We just fail fast if denied.
+  // Mount AR.js from a user click; AR.js owns the real webcam stream.
   const requestCamera = useCallback(async () => {
     setCameraError(null);
-    try {
-      // getUserMedia must be triggered by a user gesture on iOS / Android Chrome
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-        audio: false
-      });
-      // Stop our probe track immediately — AR.js will open its own
-      stream.getTracks().forEach((t) => t.stop());
-      setArmed(true);
-    } catch (err) {
-      console.error('[AR] Camera permission failed:', err);
-      setCameraError(
-        err.name === 'NotAllowedError'
-          ? 'Camera access was denied. Enable it in your browser settings and try again.'
-          : err.name === 'NotFoundError'
-            ? 'No camera was found on this device.'
-            : 'Could not start the camera. Make sure you are on HTTPS.'
-      );
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError('Camera APIs are unavailable. Use HTTPS, localhost, or a secure tunnel.');
+      return;
     }
-  }, []);
+
+    setArmed(true);
+    onCameraStarted?.();
+  }, [onCameraStarted]);
 
   // Cleanup on unmount: dispose A-Frame scene + stop any rogue camera tracks.
   useEffect(() => {
@@ -137,6 +126,7 @@ const ARScene = ({
         onArm={requestCamera}
         error={cameraError}
         workflow={workflow}
+        onExit={onExit}
       />
     );
   }
@@ -145,9 +135,11 @@ const ARScene = ({
   //  Live AR scene
   // -----------------------------------------------------------------------
   return (
-    <div className="absolute inset-0 bg-black overflow-hidden">
+    <div className="absolute inset-0 bg-transparent overflow-hidden">
       <a-scene
         ref={sceneRef}
+        className="absolute inset-0 z-10 ar-live-scene"
+        style={{ background: 'transparent' }}
         embedded
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false"
@@ -165,12 +157,12 @@ const ARScene = ({
           <StepRenderer
             step={step}
             severity={severity}
-            totalSteps={(workflow?.steps || []).length}
+            totalSteps={steps.length}
           />
         </MarkerTracker>
 
-        {/* Default camera entity required by AR.js */}
-        <a-entity camera />
+        {/* look-controls must be disabled — AR.js drives the camera pose */}
+        <a-entity id="main-camera" camera look-controls="enabled: false" />
       </a-scene>
     </div>
   );
@@ -204,8 +196,17 @@ const ErrorState = ({ title, message }) => (
   </div>
 );
 
-const PermissionGate = ({ onArm, error, workflow }) => (
-  <div className="absolute inset-0 grid place-items-center bg-black text-white p-6">
+const PermissionGate = ({ onArm, error, workflow, onExit }) => (
+  <div className="absolute inset-0 z-30 grid place-items-center bg-black text-white p-6">
+    {onExit && (
+      <button
+        onClick={onExit}
+        className="absolute top-4 right-4 w-11 h-11 grid place-items-center bg-white/90 text-black border-2 border-black rounded-lg hover:bg-white"
+        title="Exit"
+      >
+        <X size={18} strokeWidth={2.5} />
+      </button>
+    )}
     <div className="w-full max-w-sm space-y-4 text-center">
       <div className="w-16 h-16 mx-auto grid place-items-center bg-white/10 border-2 border-white/30 rounded-2xl">
         <Camera size={28} />
