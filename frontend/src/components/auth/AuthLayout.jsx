@@ -14,7 +14,7 @@ const AuthLayout = ({ title, subtitle, children, footer }) => {
         <div className="absolute top-1/3 right-20 w-3 h-24 bg-ink rotate-45" />
 
         <div className="relative z-10 h-full flex flex-col justify-between p-8 sm:p-12 min-h-[280px] lg:min-h-screen">
-          <div className="flex items-center gap-2 text-bone">
+          <div className="flex items-center gap-2 text-bone -ml-3">
             <div className="w-9 h-9 grid place-items-center bg-bone border-2 border-ink rounded-lg shadow-brutal-sm">
               <Activity size={18} strokeWidth={3} className="text-primary" />
             </div>
